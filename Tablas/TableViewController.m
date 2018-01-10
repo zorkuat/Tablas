@@ -20,6 +20,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.secciones = [NSArray arrayWithObjects:[NSMutableArray array],[NSMutableArray array],[NSMutableArray array], nil];
+    
+    for(int i=0;i<self.secciones.count;i++)
+    {
+        NSMutableArray *celdas = self.secciones[i];
+        for(int j=0;j<5;j++)
+        {
+            [celdas addObject:[NSString stringWithFormat:@"Titulo %d", i*5+j+1]];
+        }
+    }
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -36,19 +47,24 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return self.secciones.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 5;
+    NSMutableArray *celdas = self.secciones[section];
+    return celdas.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"celdaTitulo" forIndexPath:indexPath];
     
-    cell.etiquetaTitulo.text = [NSString stringWithFormat:@"Titulo %ld", indexPath.row];
+    NSMutableArray *celdas = self.secciones[indexPath.section];
+    NSString *titulo = celdas[indexPath.row];
+    
+    //cell.etiquetaTitulo.text = [NSString stringWithFormat:@"Titulo %ld", indexPath.row];
+    cell. etiquetaTitulo.text = titulo;
     
     cell.backgroundColor = [UIColor colorWithHue:arc4random_uniform(100)/99.00f saturation:1 brightness:1 alpha:0.5f];
     
@@ -90,31 +106,38 @@
 }
 */
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
+   
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
         // Delete the row from the data source
+        NSMutableArray *celdas = self.secciones[indexPath.section];
+        [celdas removeObjectAtIndex:indexPath.row];
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+    }
+    /*else if (editingStyle == UITableViewCellEditingStyleInsert)
+    {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    } */
 }
-*/
 
-/*
+
+
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
 }
-*/
 
-/*
+
+
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
 }
-*/
+
 
 /*
 #pragma mark - Navigation
